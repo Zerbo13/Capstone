@@ -1,5 +1,8 @@
 package Mattiazerbini.backend.payloads;
 
+import Mattiazerbini.backend.entities.Campo;
+import Mattiazerbini.backend.entities.Servizio;
+import Mattiazerbini.backend.entities.Utente;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,6 +32,44 @@ public class PrenotazionePayload {
     @NotNull(message = "Il campo è obbligatorio")
     private Long campoId;
 
+    @NotNull(message = "Il servizio è obbligatorio")
     private Long servizioId;
 
+    public PrenotazionePayload(LocalDate data, LocalTime oraInizio, LocalTime oraFine, String note, Long utenteId, Long campoId, Long servizioId) {
+        this.data = data;
+        this.oraInizio = oraInizio;
+        this.oraFine = oraFine;
+        this.note = note;
+        this.utenteId = utenteId;
+        this.campoId = campoId;
+        this.servizioId = servizioId;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public LocalTime getOraInizio() {
+        return oraInizio;
+    }
+
+    public LocalTime getOraFine() {
+        return oraFine;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public Utente getUtenteId() {
+        return utenteId;
+    }
+
+    public Campo getCampoId() {
+        return campoId;
+    }
+
+    public Servizio getServizioId() {
+        return servizioId;
+    }
 }
