@@ -61,15 +61,15 @@ public class PrenotazionePayload {
         return note;
     }
 
-    public Utente getUtenteId() {
+    public Long getUtenteId() {
         return utenteId;
     }
 
-    public Campo getCampoId() {
+    public Long getCampoId() {
         return campoId;
     }
 
-    public Servizio getServizioId() {
+    public Long getServizioId() {
         return servizioId;
     }
 }
