@@ -38,16 +38,16 @@ public class PrenotazioneService {
 
     public Prenotazione salvaPrenotazione(PrenotazionePayload payload){
         //TROVO L'UENTE
-        Utente utente = utenteRepository.findById(payload.getUtenteId().getId())
+        Utente utente = utenteRepository.findById(payload.getUtenteId())
                 .orElseThrow(() -> new RuntimeException("Utente non trovato!"));
         //TROVO IL CAMPO E VEDO SE E' ATTIVO
-        Campo campo = campoRepository.findById(payload.getCampoId().getId())
+        Campo campo = campoRepository.findById(payload.getCampoId())
                 .orElseThrow(() -> new RuntimeException("Campo non trovato!"));
         if (!campo.isAttivo()){
             throw new RuntimeException("Il campo non è attivo");
         }
         //TROVO IL SERVIZIO E VEDO SE E' ATTIVO
-        Servizio servizio = servizioRepository.findById(payload.getServizioId().getId())
+        Servizio servizio = servizioRepository.findById(payload.getServizioId())
                 .orElseThrow(() -> new RuntimeException("Servizio non trovato!"));
         if (!servizio.isAttivo()){
             throw new RuntimeException("Il servizio non è attivo");
@@ -106,14 +106,54 @@ public class PrenotazioneService {
 
     //MODIFICA UTENTE
     public Prenotazione findByIdAndUpdate(long idPrenotazione, PrenotazionePayload payload) {
+//TROVO L'UENTE
+        Utente utente = utenteRepository.findById(payload.getUtenteId())
+                .orElseThrow(() -> new RuntimeException("Utente non trovato!"));
+        //TROVO IL CAMPO E VEDO SE E' ATTIVO
+        Campo campo = campoRepository.findById(payload.getCampoId())
+                .orElseThrow(() -> new RuntimeException("Campo non trovato!"));
+        if (!campo.isAttivo()){
+            throw new RuntimeException("Il campo non è attivo");
+        }
+        //TROVO IL SERVIZIO E VEDO SE E' ATTIVO
+        Servizio servizio = servizioRepository.findById(payload.getServizioId())
+                .orElseThrow(() -> new RuntimeException("Servizio non trovato!"));
+        if (!servizio.isAttivo()){
+            throw new RuntimeException("Il servizio non è attivo");
+        }
+        //VEDO SE è DISPONIBILE IL CAMPO PER QUELL'ORARIO
+        if (payload.getOraFine().isAfter(payload.getOraInizio())){
+            throw new RuntimeException("L'orario di fine servizio deve essere dopo quello di inizio servizio!");
+        }
+        boolean prenotato = prenotazioneRepository
+                .existsByCampoAndDataAndOrOraInizioLessThanAndOraFineGreaterThan(
+                        campo,
+                        payload.getData(),
+                        payload.getOraInizio(),
+                        payload.getOraFine()
+                );
+        if (prenotato){
+            throw new RuntimeException("Il campo è già prenotato per quest'orario");
+        }
+        Prenotazione newPrenotazione = new Prenotazione(
+                payload.getData(),
+                payload.getOraInizio(),
+                payload.getOraFine(),
+                payload.getNote(),
+                LocalDate.now(),
+                Stato.CONFERMATA,
+                utente,
+                campo,
+                servizio
+        );
 
         Prenotazione found = this.findById(idPrenotazione);
         found.setData(payload.getData());
         found.setOraInizio(payload.getOraFine());
         found.setNote(payload.getNote());
-        found.setUtente(payload.getUtenteId());
-        found.setCampo(payload.getCampoId());
-        found.setServizio(payload.getServizioId());
+        found.setUtente(utente);
+        found.setCampo(campo);
+        found.setServizio(servizio);
 
         Prenotazione prenotazioenModificata = this.prenotazioneRepository.save(found);
         log.info("La prenotazione con id " + prenotazioenModificata.getId() + " è stata modificata correttamente");
