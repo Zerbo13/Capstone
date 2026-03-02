@@ -25,4 +25,24 @@ public class ServizioPayload {
         this.durata = durata;
         this.attivo = attivo;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public Double getPrezzo() {
+        return prezzo;
+    }
+
+    public LocalTime getDurata() {
+        return durata;
+    }
+
+    public boolean isAttivo() {
+        return attivo;
+    }
 }

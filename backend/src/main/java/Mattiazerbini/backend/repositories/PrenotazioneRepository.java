@@ -3,15 +3,13 @@ package Mattiazerbini.backend.repositories;
 import Mattiazerbini.backend.entities.Campo;
 import Mattiazerbini.backend.entities.Prenotazione;
 import Mattiazerbini.backend.entities.Utente;
-import jdk.dynalink.linker.LinkerServices;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
-public interface PrenotazioneRepositories extends JpaRepository<Prenotazione, Long> {
+public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long> {
     List<Prenotazione> findByUtente(Utente utente);
     List<Prenotazione> findByCampo(Campo campo);
     List<Prenotazione> findByData(LocalDate data);

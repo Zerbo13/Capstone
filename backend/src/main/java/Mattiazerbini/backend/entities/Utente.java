@@ -64,6 +64,14 @@ public class Utente {
         this.dataNascita = dataNascita;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDataRegistrazione(LocalDate dataRegistrazione) {
+        this.dataRegistrazione = dataRegistrazione;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -99,4 +107,5 @@ public class Utente {
     public void setAttivo(boolean attivo) {
         this.attivo = attivo;
     }
+
 }

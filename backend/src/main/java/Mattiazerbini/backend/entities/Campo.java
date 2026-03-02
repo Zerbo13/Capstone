@@ -29,6 +29,7 @@ public class Campo {
     public Campo() {
     }
 
+
     public Long getId() {
         return id;
     }
