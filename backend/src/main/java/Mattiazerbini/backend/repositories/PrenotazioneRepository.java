@@ -17,7 +17,7 @@ public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long
     //VERIFICA SE ESISTE GIA UNA PRENOTAZIONE PER QUEL CAMPO IN QUELLA DATA
     // CHE SI SOVRAPPONE ALL'ORA CHE L'UTENTE VUOLE PRENOTARE
     //Se ritorna true allora il campo non è disponibile
-    boolean existsByCampoAndDataAndOrOraInizioLessThanAndOraFineGreaterThan
+    boolean existsByCampoAndDataAndOraInizioLessThanAndOraFineGreaterThan
             (Campo campo, LocalDate data, LocalTime oraInizio, LocalTime orafine);
 
 }
