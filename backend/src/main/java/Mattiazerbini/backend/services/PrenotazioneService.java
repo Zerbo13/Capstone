@@ -57,7 +57,7 @@ public class PrenotazioneService {
             throw new RuntimeException("L'orario di fine servizio deve essere dopo quello di inizio servizio!");
         }
         boolean prenotato = prenotazioneRepository
-                .existsByCampoAndDataAndOrOraInizioLessThanAndOraFineGreaterThan(
+                .existsByCampoAndDataAndOraInizioLessThanAndOraFineGreaterThan(
                         campo,
                         payload.getData(),
                         payload.getOraInizio(),
@@ -126,7 +126,7 @@ public class PrenotazioneService {
             throw new RuntimeException("L'orario di fine servizio deve essere dopo quello di inizio servizio!");
         }
         boolean prenotato = prenotazioneRepository
-                .existsByCampoAndDataAndOrOraInizioLessThanAndOraFineGreaterThan(
+                .existsByCampoAndDataAndOraInizioLessThanAndOraFineGreaterThan(
                         campo,
                         payload.getData(),
                         payload.getOraInizio(),
