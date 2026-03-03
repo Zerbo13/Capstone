@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,6 +36,7 @@ public class PrenotazioneService {
         this.utenteRepository = utenteRepository;
         this.servizioRepository = servizioRepository;
     }
+
 
     public Prenotazione salvaPrenotazione(PrenotazionePayload payload){
         //TROVO L'UENTE
@@ -86,7 +88,7 @@ public class PrenotazioneService {
     public Page<Prenotazione> findAll(int page, int size, String sortBy) {
         if (page <= 0) page = 0;
         if (size < 0 || size > 150) size = 10;
-        if (sortBy == null) sortBy = "nome";
+        if (sortBy == null) sortBy = "data";
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return prenotazioneRepository.findAll(pageable);
     }

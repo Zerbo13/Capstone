@@ -12,6 +12,7 @@ import Mattiazerbini.backend.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,8 +28,10 @@ public class PrenotazioneController {
     }
 
     //POST
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Prenotazione salvaPrenotaziona(@RequestBody PrenotazionePayload payload) {
         return this.prenotazioneService.salvaPrenotazione(payload);
     }
@@ -36,6 +39,7 @@ public class PrenotazioneController {
     //DELETE
     @DeleteMapping("/{idUtente}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public void findByIdAndDelete(@PathVariable long idPrenotazione) {
         this.prenotazioneService.findByIdAndDelete(idPrenotazione);
     }
@@ -50,15 +54,17 @@ public class PrenotazioneController {
 
     //GET
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Prenotazione> findAllC(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "nome") String orderBy) {
+            @RequestParam(defaultValue = "data") String orderBy) {
         return prenotazioneService.findAll(page, size, orderBy);
     }
 
     //PUT
     @PutMapping("/{idPrenotazione}")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Prenotazione findByIdAndUpdate(@PathVariable long idPrenotazione, @RequestBody PrenotazionePayload payload) {
         return this.prenotazioneService.findByIdAndUpdate(idPrenotazione, payload);
     }

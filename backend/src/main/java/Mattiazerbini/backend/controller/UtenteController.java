@@ -9,6 +9,7 @@ import Mattiazerbini.backend.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,6 +38,7 @@ public class UtenteController {
 
 
     //GET
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{idUtente}")
     public Utente findById(@PathVariable long idUtente) {
         return this.utenteService.findById(idUtente);
@@ -44,6 +46,7 @@ public class UtenteController {
 
 
     //GET
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<Utente> findAll(
             @RequestParam(defaultValue = "0") int page,
