@@ -137,4 +137,28 @@ public class Utente implements UserDetails {
         return this.email;
     }
 
+    //UTENTE SCADUTO
+    @Override
+    public boolean isAccountNonExpired(){
+        return true;
+    }
+
+    //UTENTE BLOCCATO
+    @Override
+    public boolean isAccountNonLocked(){
+        return true;
+    }
+
+    //UTENTE CON CREDENZIALI SCADUTE
+    @Override
+    public boolean isCredentialsNonExpired(){
+        return true;
+    }
+
+    //UTENTE ATTIVO
+    @Override
+    public boolean isEnabled(){
+        return true;
+    }
+
 }

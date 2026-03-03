@@ -1,6 +1,6 @@
 package Mattiazerbini.backend.entities;
 
 public enum Ruolo {
-    UTENTE,
+    USER,
     ADMIN
 }
