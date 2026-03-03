@@ -1,12 +1,17 @@
 package Mattiazerbini.backend.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "utenti")
-public class Utente {
+public class Utente implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +25,8 @@ public class Utente {
     private String telefono;
     private LocalDate dataRegistrazione;
     private boolean attivo;
+    @Enumerated(EnumType.STRING)
+    private Ruolo ruolo;
 
     public Utente(String nome, String cognome, LocalDate dataNascita, String email, String password, String telefono, LocalDate dataRegistrazione, boolean attivo) {
         this.nome = nome;
@@ -106,6 +113,28 @@ public class Utente {
 
     public void setAttivo(boolean attivo) {
         this.attivo = attivo;
+    }
+
+    public Ruolo getRuolo() {
+        return ruolo;
+    }
+
+    public LocalDate getDataRegistrazione() {
+        return dataRegistrazione;
+    }
+
+    public void setRuolo(Ruolo ruolo) {
+        this.ruolo = ruolo;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.ruolo.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
 }
