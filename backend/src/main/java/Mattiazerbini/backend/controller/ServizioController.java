@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +24,7 @@ public class ServizioController {
     //POST
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Servizio salvaServizio(@RequestBody ServizioPayload payload) {
         return this.servizioService.salvaServizio(payload);
     }
@@ -30,6 +32,7 @@ public class ServizioController {
     //DELETE
     @DeleteMapping("/{idServizio}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findByIdAndDelete(@PathVariable long idServizio) {
         this.servizioService.findByIdAndDelete(idServizio);
     }
@@ -44,6 +47,7 @@ public class ServizioController {
 
     //GET
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Page<Servizio> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -53,6 +57,7 @@ public class ServizioController {
 
     //PUT
     @PutMapping("/{idServizio}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Servizio findByIdAndUpdate(@PathVariable long idServizio, @RequestBody ServizioPayload payload) {
         return this.servizioService.findByIdAndUpdate(idServizio, payload);
     }

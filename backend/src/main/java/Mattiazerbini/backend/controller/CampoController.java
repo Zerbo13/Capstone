@@ -9,6 +9,7 @@ import Mattiazerbini.backend.services.ServizioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +26,7 @@ public class CampoController {
     //POST
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Campo salvaCampo(@RequestBody CampoPayload payload) {
         return this.campoService.salvaCampo(payload);
     }
@@ -32,6 +34,7 @@ public class CampoController {
     //DELETE
     @DeleteMapping("/{idCampo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findByIdAndDelete(@PathVariable long idCampo) {
         this.campoService.findByIdAndDelete(idCampo);
     }
@@ -39,6 +42,7 @@ public class CampoController {
 
     //GET
     @GetMapping("/{idCampo}")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Campo findById(@PathVariable long idCampo) {
         return this.campoService.findById(idCampo);
     }
@@ -46,6 +50,7 @@ public class CampoController {
 
     //GET
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Page<Campo> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -55,6 +60,7 @@ public class CampoController {
 
     //PUT
     @PutMapping("/{idCampo}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Campo findByIdAndUpdate(@PathVariable long idCampo, @RequestBody CampoPayload payload) {
         return this.campoService.findByIdAndUpdate(idCampo, payload);
     }

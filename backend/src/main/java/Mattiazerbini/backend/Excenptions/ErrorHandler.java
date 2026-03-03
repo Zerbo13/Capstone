@@ -29,11 +29,11 @@ public class ErrorHandler {
         return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
     }
 
-//    @ExceptionHandler(AuthorizationDeniedException.class)
-//    @ResponseStatus(HttpStatus.FORBIDDEN)
-//    public ErrorsPayload handleForbidden(AuthorizationDeniedException ex) {
-//        return new ErrorsPayload("Non hai i permessi per accedere!", LocalDateTime.now());
-//    }
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorsPayload handleForbidden(AuthorizationDeniedException ex) {
+        return new ErrorsPayload("Non hai i permessi per accedere!", LocalDateTime.now());
+    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
