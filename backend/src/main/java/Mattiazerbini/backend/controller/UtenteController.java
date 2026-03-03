@@ -45,7 +45,7 @@ public class UtenteController {
 
     //GET
     @GetMapping
-    public Page<Utente> findAllClientes(
+    public Page<Utente> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "nome") String orderBy) {
