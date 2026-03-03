@@ -10,7 +10,6 @@ public class UtentePayload {
     private String nome;
     @NotBlank(message = "Il cognome è obbligatorio")
     private String cognome;
-    @NotBlank(message = "La data di nascita è obbligatoria")
     private LocalDate dataNascita;
     @NotBlank(message = "La mail è obbligatoria")
     private String email;

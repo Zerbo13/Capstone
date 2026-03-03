@@ -1,6 +1,7 @@
 package Mattiazerbini.backend.services;
 
 import Mattiazerbini.backend.Excenptions.NotFoundException;
+import Mattiazerbini.backend.entities.Ruolo;
 import Mattiazerbini.backend.entities.Utente;
 import Mattiazerbini.backend.payloads.UtentePayload;
 import Mattiazerbini.backend.repositories.UtenteRepository;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,10 +20,13 @@ import org.springframework.stereotype.Service;
 public class UtenteService {
 
     private final UtenteRepository utenteRepository;
+    private final PasswordEncoder bcrypt;
+
 
     @Autowired
 
-    public UtenteService(UtenteRepository utenteRepository) {
+    public UtenteService(PasswordEncoder bcrypt, UtenteRepository utenteRepository) {
+        this.bcrypt = bcrypt;
         this.utenteRepository = utenteRepository;
     }
 
@@ -34,11 +39,12 @@ public class UtenteService {
                 payload.getCognome(),
                 payload.getDataNascita(),
                 payload.getEmail(),
-                payload.getPassword(),
+               bcrypt.encode(payload.getPassword()),
                 payload.getTelefono(),
                 java.time.LocalDate.now(),
                 true
         );
+        newUtente.setRuolo(Ruolo.UTENTE);
         Utente utenteSalvato = this.utenteRepository.save(newUtente);
         log.info("L'utente "+newUtente.getNome()+" " +newUtente.getCognome()+ " è stato inserito con successo!");
         return utenteSalvato;
@@ -80,6 +86,12 @@ public class UtenteService {
         Utente utenteModificato = this.utenteRepository.save(found);
         log.info("L'utente con id " + utenteModificato.getId() + " è stato modificato correttamente");
         return utenteModificato;
+    }
+
+    //RICERCA PER EMAIL
+    public Utente findByEmail(String email) {
+        return utenteRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato"));
     }
 
 }
