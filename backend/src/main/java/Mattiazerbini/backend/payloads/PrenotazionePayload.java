@@ -26,8 +26,6 @@ public class PrenotazionePayload {
     @Size(max= 255)
     private String note;
 
-    @NotNull(message = "L'utente è obbligatorio")
-    private Long utenteId;
 
     @NotNull(message = "Il campo è obbligatorio")
     private Long campoId;
@@ -35,12 +33,11 @@ public class PrenotazionePayload {
     @NotNull(message = "Il servizio è obbligatorio")
     private Long servizioId;
 
-    public PrenotazionePayload(LocalDate data, LocalTime oraInizio, LocalTime oraFine, String note, Long utenteId, Long campoId, Long servizioId) {
+    public PrenotazionePayload(LocalDate data, LocalTime oraInizio, LocalTime oraFine, String note, Long campoId, Long servizioId) {
         this.data = data;
         this.oraInizio = oraInizio;
         this.oraFine = oraFine;
         this.note = note;
-        this.utenteId = utenteId;
         this.campoId = campoId;
         this.servizioId = servizioId;
     }
@@ -59,10 +56,6 @@ public class PrenotazionePayload {
 
     public String getNote() {
         return note;
-    }
-
-    public Long getUtenteId() {
-        return utenteId;
     }
 
     public Long getCampoId() {

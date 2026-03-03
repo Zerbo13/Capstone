@@ -44,7 +44,7 @@ public class UtenteService {
                 java.time.LocalDate.now(),
                 true
         );
-        newUtente.setRuolo(Ruolo.UTENTE);
+        newUtente.setRuolo(Ruolo.USER);
         Utente utenteSalvato = this.utenteRepository.save(newUtente);
         log.info("L'utente "+newUtente.getNome()+" " +newUtente.getCognome()+ " è stato inserito con successo!");
         return utenteSalvato;

@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -39,18 +40,20 @@ public class PrenotazioneService {
 
 
     public Prenotazione salvaPrenotazione(PrenotazionePayload payload){
-        //TROVO L'UENTE
-        Utente utente = utenteRepository.findById(payload.getUtenteId())
-                .orElseThrow(() -> new RuntimeException("Utente non trovato!"));
+        //L'UENTE LOGGATO CON TOKEN
+        Utente utenteLoggato = (Utente) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
         //TROVO IL CAMPO E VEDO SE E' ATTIVO
         Campo campo = campoRepository.findById(payload.getCampoId())
-                .orElseThrow(() -> new RuntimeException("Campo non trovato!"));
+                .orElseThrow(() -> new NotFoundException("Campo non trovato!"));
         if (!campo.isAttivo()){
             throw new RuntimeException("Il campo non è attivo");
         }
         //TROVO IL SERVIZIO E VEDO SE E' ATTIVO
         Servizio servizio = servizioRepository.findById(payload.getServizioId())
-                .orElseThrow(() -> new RuntimeException("Servizio non trovato!"));
+                .orElseThrow(() -> new NotFoundException("Servizio non trovato!"));
         if (!servizio.isAttivo()){
             throw new RuntimeException("Il servizio non è attivo");
         }
@@ -75,7 +78,7 @@ public class PrenotazioneService {
                 payload.getNote(),
                 LocalDate.now(),
                 Stato.CONFERMATA,
-                utente,
+                utenteLoggato,
                 campo,
                 servizio
         );
@@ -109,11 +112,13 @@ public class PrenotazioneService {
     //MODIFICA UTENTE
     public Prenotazione findByIdAndUpdate(long idPrenotazione, PrenotazionePayload payload) {
 //TROVO L'UENTE
-        Utente utente = utenteRepository.findById(payload.getUtenteId())
-                .orElseThrow(() -> new RuntimeException("Utente non trovato!"));
+        Utente utenteLoggato = (Utente) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
         //TROVO IL CAMPO E VEDO SE E' ATTIVO
         Campo campo = campoRepository.findById(payload.getCampoId())
-                .orElseThrow(() -> new RuntimeException("Campo non trovato!"));
+                .orElseThrow(() -> new NotFoundException("Campo non trovato!"));
         if (!campo.isAttivo()){
             throw new RuntimeException("Il campo non è attivo");
         }
@@ -144,7 +149,7 @@ public class PrenotazioneService {
                 payload.getNote(),
                 LocalDate.now(),
                 Stato.CONFERMATA,
-                utente,
+                utenteLoggato,
                 campo,
                 servizio
         );
@@ -153,7 +158,7 @@ public class PrenotazioneService {
         found.setData(payload.getData());
         found.setOraInizio(payload.getOraFine());
         found.setNote(payload.getNote());
-        found.setUtente(utente);
+        found.setUtente(utenteLoggato);
         found.setCampo(campo);
         found.setServizio(servizio);
 
