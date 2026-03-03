@@ -10,15 +10,13 @@ import Mattiazerbini.backend.repositories.ServizioRepository;
 import Mattiazerbini.backend.repositories.UtenteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -165,5 +163,10 @@ public class PrenotazioneService {
         Prenotazione prenotazioenModificata = this.prenotazioneRepository.save(found);
         log.info("La prenotazione con id " + prenotazioenModificata.getId() + " è stata modificata correttamente");
         return prenotazioenModificata;
+    }
+
+    //FIND BY CAMPO AND DATA
+    public List<Prenotazione> findByCampoAndData(Long campoId, LocalDate data){
+        return prenotazioneRepository.findByCampoIdAndData(campoId, data);
     }
 }
