@@ -2,6 +2,9 @@ package Mattiazerbini.backend.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "campi")
 public class Campo {
@@ -16,6 +19,9 @@ public class Campo {
     private Double prezzoOra;
     private boolean attivo;
     private String tipo;
+    private LocalTime oraApertura;
+    private LocalTime oraChiusura;
+
 
     public Campo(String nome, String descrizione, boolean coperto, double prezzoOra, boolean attivo, String tipo) {
         this.nome = nome;
@@ -24,10 +30,13 @@ public class Campo {
         this.prezzoOra = prezzoOra;
         this.attivo = attivo;
         this.tipo = tipo;
+        this.oraApertura = LocalTime.of(8, 0);
+        this.oraChiusura = LocalTime.of(22, 0);
     }
 
     public Campo() {
     }
+
 
 
     public Long getId() {
@@ -79,5 +88,25 @@ public class Campo {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public void setPrezzoOra(Double prezzoOra) {
+        this.prezzoOra = prezzoOra;
+    }
+
+    public LocalTime getOraApertura() {
+        return oraApertura;
+    }
+
+    public void setOraApertura(LocalTime oraApertura) {
+        this.oraApertura = oraApertura;
+    }
+
+    public LocalTime getOraChiusura() {
+        return oraChiusura;
+    }
+
+    public void setOraChiusura(LocalTime oraChiusura) {
+        this.oraChiusura = oraChiusura;
     }
 }

@@ -20,4 +20,6 @@ public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long
     boolean existsByCampoAndDataAndOraInizioLessThanAndOraFineGreaterThan
             (Campo campo, LocalDate data, LocalTime oraFine, LocalTime oraInizio);
 
+    public List<Prenotazione> findByCampoIdAndData(Long campoId, LocalDate data);
+
 }

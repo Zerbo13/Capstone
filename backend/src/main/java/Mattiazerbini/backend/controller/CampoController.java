@@ -1,22 +1,36 @@
 package Mattiazerbini.backend.controller;
 
 import Mattiazerbini.backend.entities.Campo;
+import Mattiazerbini.backend.entities.Prenotazione;
 import Mattiazerbini.backend.entities.Servizio;
 import Mattiazerbini.backend.payloads.CampoPayload;
 import Mattiazerbini.backend.payloads.ServizioPayload;
+import Mattiazerbini.backend.payloads.SlotPrenotazioni;
 import Mattiazerbini.backend.services.CampoService;
+import Mattiazerbini.backend.services.PrenotazioneService;
 import Mattiazerbini.backend.services.ServizioService;
+import Mattiazerbini.backend.services.SlotPrenotazioniService;
+import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Locale;
+
 @RestController
 @RequestMapping("/campi")
 public class CampoController {
 
     private CampoService campoService;
+    @Autowired
+    private PrenotazioneService prenotazioneService;
+    @Autowired
+    private SlotPrenotazioniService slotPrenotazioniService;
 
     @Autowired
     public CampoController(CampoService campoService) {
@@ -63,5 +77,23 @@ public class CampoController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public Campo findByIdAndUpdate(@PathVariable long idCampo, @RequestBody CampoPayload payload) {
         return this.campoService.findByIdAndUpdate(idCampo, payload);
+    }
+
+    //SLOT DISPONIBILI
+    @GetMapping("/{idCampo}/orari")
+    public List<SlotPrenotazioni> getOrariDisponibili(
+            @PathVariable Long idCampo,
+            @RequestParam LocalDate data
+            ){
+        //TROVA IL CAMPO
+        Campo campo = campoService.findById(idCampo);
+        //ORARI APERTURA E CHIUSURA DEL CAMPO
+        LocalTime oraApertura = campo.getOraApertura();
+        LocalTime oraChiusura = campo.getOraChiusura();
+        int durata = 120; //DURATA SLOT
+        int step = 30; //INTERVALLO TRA UNO SLOT E L'ALTRO
+       List<SlotPrenotazioni> slots = slotPrenotazioniService.slotOra(oraApertura, oraChiusura, durata, step);
+       List<Prenotazione> prenotazioni = prenotazioneService.findByCampoAndData(idCampo, data);
+        return slotPrenotazioniService.filtroSlotDisponibili(slots, prenotazioni);
     }
 }
