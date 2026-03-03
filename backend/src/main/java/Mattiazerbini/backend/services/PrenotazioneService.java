@@ -53,15 +53,15 @@ public class PrenotazioneService {
             throw new RuntimeException("Il servizio non è attivo");
         }
         //VEDO SE è DISPONIBILE IL CAMPO PER QUELL'ORARIO
-        if (payload.getOraFine().isAfter(payload.getOraInizio())){
+        if (!payload.getOraFine().isAfter(payload.getOraInizio())){
             throw new RuntimeException("L'orario di fine servizio deve essere dopo quello di inizio servizio!");
         }
         boolean prenotato = prenotazioneRepository
                 .existsByCampoAndDataAndOraInizioLessThanAndOraFineGreaterThan(
                         campo,
                         payload.getData(),
-                        payload.getOraInizio(),
-                        payload.getOraFine()
+                        payload.getOraFine(),
+                        payload.getOraInizio()
                 );
         if (prenotato){
             throw new RuntimeException("Il campo è già prenotato per quest'orario");

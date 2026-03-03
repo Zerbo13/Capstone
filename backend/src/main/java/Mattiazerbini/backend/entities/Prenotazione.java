@@ -2,6 +2,7 @@ package Mattiazerbini.backend.entities;
 
 import jakarta.persistence.*;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToStdout;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -49,6 +50,8 @@ public class Prenotazione {
 
     public Prenotazione() {
     }
+
+
 
     public Long getId() {
         return id;

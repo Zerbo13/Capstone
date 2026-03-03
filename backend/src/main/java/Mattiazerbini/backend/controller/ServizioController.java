@@ -44,7 +44,7 @@ public class ServizioController {
 
     //GET
     @GetMapping
-    public Page<Servizio> findAllClientes(
+    public Page<Servizio> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "nome") String orderBy) {

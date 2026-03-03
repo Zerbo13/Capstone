@@ -46,7 +46,7 @@ public class CampoController {
 
     //GET
     @GetMapping
-    public Page<Campo> findAllClientes(
+    public Page<Campo> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "nome") String orderBy) {
