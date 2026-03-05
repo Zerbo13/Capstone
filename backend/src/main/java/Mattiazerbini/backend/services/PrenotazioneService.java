@@ -174,4 +174,13 @@ public class PrenotazioneService {
     public List<Prenotazione> findByCampoAndData(Long campoId, LocalDate data){
         return prenotazioneRepository.findByCampoIdAndData(campoId, data);
     }
+
+    public List<Prenotazione> findPrenotazioniUtente(){
+        Utente utenteLoggato = (Utente) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return prenotazioneRepository.findByUtenteId(utenteLoggato.getId());
+    }
 }

@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long> {
-    List<Prenotazione> findByUtente(Utente utente);
+    List<Prenotazione> findByUtenteId(Long utenteId);
     List<Prenotazione> findByCampo(Campo campo);
     List<Prenotazione> findByData(LocalDate data);
 

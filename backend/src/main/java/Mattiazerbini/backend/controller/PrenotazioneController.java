@@ -13,17 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/prenotazioni")
 public class PrenotazioneController {
-    private PrenotazioneService prenotazioneService;
+    private final PrenotazioneService prenotazioneService;
 
     @Autowired
-    public void PrenotazioneController(PrenotazioneService prenotazioneService) {
+    public PrenotazioneController(PrenotazioneService prenotazioneService) {
         this.prenotazioneService = prenotazioneService;
     }
 
@@ -37,7 +39,7 @@ public class PrenotazioneController {
     }
 
     //DELETE
-    @DeleteMapping("/{idUtente}")
+    @DeleteMapping("/{idPrenotazione}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public void findByIdAndDelete(@PathVariable long idPrenotazione) {
@@ -68,4 +70,13 @@ public class PrenotazioneController {
     public Prenotazione findByIdAndUpdate(@PathVariable long idPrenotazione, @RequestBody PrenotazionePayload payload) {
         return this.prenotazioneService.findByIdAndUpdate(idPrenotazione, payload);
     }
+
+    //GET
+    @GetMapping("/utente")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public List<Prenotazione> getPrenotazioniUtente(){
+        return prenotazioneService.findPrenotazioniUtente();
+    }
 }
+
+
