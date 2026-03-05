@@ -1,5 +1,6 @@
 package Mattiazerbini.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +20,7 @@ public class Utente implements UserDetails {
 
     private String nome;
     private String cognome;
-    private LocalDate dataNascita;
+    private String dataNascita;
     private String email;
     private String password;
     private String telefono;
@@ -28,7 +29,7 @@ public class Utente implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
 
-    public Utente(String nome, String cognome, LocalDate dataNascita, String email, String password, String telefono, LocalDate dataRegistrazione, boolean attivo) {
+    public Utente(String nome, String cognome, String dataNascita, String email, String password, String telefono, LocalDate dataRegistrazione, boolean attivo) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataNascita = dataNascita;
@@ -63,11 +64,11 @@ public class Utente implements UserDetails {
         this.cognome = cognome;
     }
 
-    public LocalDate getDataNascita() {
+    public String getDataNascita() {
         return dataNascita;
     }
 
-    public void setDataNascita(LocalDate dataNascita) {
+    public void setDataNascita(String dataNascita) {
         this.dataNascita = dataNascita;
     }
 
