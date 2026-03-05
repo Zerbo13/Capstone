@@ -1,5 +1,6 @@
 package Mattiazerbini.backend.controller;
 
+import Mattiazerbini.backend.Excenptions.DataNoValidationException;
 import Mattiazerbini.backend.entities.Campo;
 import Mattiazerbini.backend.entities.Prenotazione;
 import Mattiazerbini.backend.entities.Servizio;
@@ -85,12 +86,16 @@ public class CampoController {
             @PathVariable Long idCampo,
             @RequestParam LocalDate data
             ){
+        //CONTROLLA SE LA DATA E' OGGI O IN  FUTURO NO IN PASSATO
+        if (data.isBefore(LocalDate.now())){
+            throw new DataNoValidationException("Non è possibile visualizzare gli orari per i giorni passati");
+        }
         //TROVA IL CAMPO
         Campo campo = campoService.findById(idCampo);
         //ORARI APERTURA E CHIUSURA DEL CAMPO
         LocalTime oraApertura = campo.getOraApertura();
         LocalTime oraChiusura = campo.getOraChiusura();
-        int durata = 120; //DURATA SLOT
+        int durata = 90; //DURATA SLOT
         int step = 30; //INTERVALLO TRA UNO SLOT E L'ALTRO
        List<SlotPrenotazioni> slots = slotPrenotazioniService.slotOra(oraApertura, oraChiusura, durata, step);
        List<Prenotazione> prenotazioni = prenotazioneService.findByCampoAndData(idCampo, data);

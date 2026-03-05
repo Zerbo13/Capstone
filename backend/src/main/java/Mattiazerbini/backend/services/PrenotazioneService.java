@@ -1,5 +1,6 @@
 package Mattiazerbini.backend.services;
 
+import Mattiazerbini.backend.Excenptions.DataNoValidationException;
 import Mattiazerbini.backend.Excenptions.NotFoundException;
 import Mattiazerbini.backend.entities.*;
 import Mattiazerbini.backend.payloads.PrenotazionePayload;
@@ -38,6 +39,10 @@ public class PrenotazioneService {
 
 
     public Prenotazione salvaPrenotazione(PrenotazionePayload payload){
+        //CONTROLLA SE LA DATA E' OGGI O IN  FUTURO NO IN PASSATO
+        if (payload.getData().isBefore(LocalDate.now())){
+            throw new DataNoValidationException("Non è possibile effettuare una prenotazione per i giorni passati");
+        }
         //L'UENTE LOGGATO CON TOKEN
         Utente utenteLoggato = (Utente) SecurityContextHolder
                 .getContext()
@@ -47,17 +52,17 @@ public class PrenotazioneService {
         Campo campo = campoRepository.findById(payload.getCampoId())
                 .orElseThrow(() -> new NotFoundException("Campo non trovato!"));
         if (!campo.isAttivo()){
-            throw new RuntimeException("Il campo non è attivo");
+            throw new DataNoValidationException("Il campo non è attivo");
         }
         //TROVO IL SERVIZIO E VEDO SE E' ATTIVO
         Servizio servizio = servizioRepository.findById(payload.getServizioId())
                 .orElseThrow(() -> new NotFoundException("Servizio non trovato!"));
         if (!servizio.isAttivo()){
-            throw new RuntimeException("Il servizio non è attivo");
+            throw new DataNoValidationException("Il servizio non è attivo");
         }
         //VEDO SE è DISPONIBILE IL CAMPO PER QUELL'ORARIO
         if (!payload.getOraFine().isAfter(payload.getOraInizio())){
-            throw new RuntimeException("L'orario di fine servizio deve essere dopo quello di inizio servizio!");
+            throw new DataNoValidationException("L'orario di fine servizio deve essere dopo quello di inizio servizio!");
         }
         boolean prenotato = prenotazioneRepository
                 .existsByCampoAndDataAndOraInizioLessThanAndOraFineGreaterThan(
@@ -67,7 +72,7 @@ public class PrenotazioneService {
                         payload.getOraInizio()
                 );
         if (prenotato){
-            throw new RuntimeException("Il campo è già prenotato per quest'orario");
+            throw new DataNoValidationException("Il campo è già prenotato per quest'orario");
         }
         Prenotazione newPrenotazione = new Prenotazione(
                 payload.getData(),
