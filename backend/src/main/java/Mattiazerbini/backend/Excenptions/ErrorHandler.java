@@ -59,6 +59,11 @@ public class ErrorHandler {
         return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
     }
 
+    @ExceptionHandler(DataNoValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsPayload handleDataNoValidation(DataNoValidationException ex){
+        return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
