@@ -16,7 +16,8 @@ public class JWTTools {
 
     public String generateToken(Utente utente) {
         return Jwts.builder()
-                .issuedAt(new Date(System.currentTimeMillis())) // Data di emissione (IaT - Issued At), va messa in millisecondi
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .claim("ruolo", utente.getRuolo().name())// Data di emissione (IaT - Issued At), va messa in millisecondi
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // Data di scadenza (Expiration Date) anche questa va messa in millisecondi
                 .subject(String.valueOf(utente.getId())) // Subject cioè a chi appartiene il token. Ci inseriamo l'id dell'utente (MAI METTERE DATI SENSIBILI AL SUO INTERNO)
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes())) // Firmo il token fornendogli un segreto che il server conosce ed usa per creare token ma anche per verificarli
