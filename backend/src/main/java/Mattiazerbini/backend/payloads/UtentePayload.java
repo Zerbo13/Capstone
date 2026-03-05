@@ -10,7 +10,7 @@ public class UtentePayload {
     private String nome;
     @NotBlank(message = "Il cognome è obbligatorio")
     private String cognome;
-    private LocalDate dataNascita;
+    private String dataNascita;
     @NotBlank(message = "La mail è obbligatoria")
     private String email;
     @NotBlank(message = "La password è obbligatoria")
@@ -19,7 +19,7 @@ public class UtentePayload {
     @NotBlank(message = "Il telfono è obbligatorio")
     private String telefono;
 
-    public UtentePayload(String nome, String cognome, LocalDate dataNascita, String email, String password, String telefono) {
+    public UtentePayload(String nome, String cognome, String dataNascita, String email, String password, String telefono) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataNascita = dataNascita;
@@ -36,7 +36,7 @@ public class UtentePayload {
         return cognome;
     }
 
-    public LocalDate getDataNascita() {
+    public String getDataNascita() {
         return dataNascita;
     }
 

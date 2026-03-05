@@ -28,8 +28,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseDTO login(@RequestBody LoginDTO body) {
-
-        return new ResponseDTO(this.authService.checkCredentialsAndGenerateToken(body));
+        String token = this.authService.checkCredentialsAndGenerateToken(body);
+        Utente utente = this.authService.getUserByEmail(body.email());
+        return new ResponseDTO(token, utente.getRuolo().name());
     }
 
     @PostMapping("/register")
