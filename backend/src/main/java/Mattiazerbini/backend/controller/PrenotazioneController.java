@@ -49,6 +49,7 @@ public class PrenotazioneController {
 
     //GET
     @GetMapping("/{idPrenotazione}")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Prenotazione findById(@PathVariable long idPrenotazione) {
         return this.prenotazioneService.findById(idPrenotazione);
     }
