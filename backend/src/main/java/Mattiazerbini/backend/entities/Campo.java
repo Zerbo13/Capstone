@@ -21,9 +21,10 @@ public class Campo {
     private String tipo;
     private LocalTime oraApertura;
     private LocalTime oraChiusura;
+    private String immagine;
 
 
-    public Campo(String nome, String descrizione, boolean coperto, double prezzoOra, boolean attivo, String tipo) {
+    public Campo(String nome, String descrizione, boolean coperto, double prezzoOra, boolean attivo, String tipo, String immagine) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.coperto = coperto;
@@ -32,6 +33,7 @@ public class Campo {
         this.tipo = tipo;
         this.oraApertura = LocalTime.of(8, 0);
         this.oraChiusura = LocalTime.of(22, 0);
+        this.immagine = immagine;
     }
 
     public Campo() {
@@ -108,5 +110,13 @@ public class Campo {
 
     public void setOraChiusura(LocalTime oraChiusura) {
         this.oraChiusura = oraChiusura;
+    }
+
+    public String getImmagine() {
+        return immagine;
+    }
+
+    public void setImmagine(String immagine) {
+        this.immagine = immagine;
     }
 }

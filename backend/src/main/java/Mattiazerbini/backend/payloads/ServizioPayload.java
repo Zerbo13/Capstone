@@ -17,13 +17,15 @@ public class ServizioPayload {
     @NotBlank(message = "La durata è obbligatoria")
     private LocalTime durata;
     private boolean attivo;
+    private String immagine;
 
-    public ServizioPayload(String nome, String descrizione, Double prezzo, LocalTime durata, boolean attivo) {
+    public ServizioPayload(String nome, String descrizione, Double prezzo, LocalTime durata, boolean attivo, String immagine) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.durata = durata;
         this.attivo = attivo;
+        this.immagine = immagine;
     }
 
     public String getNome() {
@@ -44,5 +46,9 @@ public class ServizioPayload {
 
     public boolean isAttivo() {
         return attivo;
+    }
+
+    public String getImmagine() {
+        return immagine;
     }
 }
