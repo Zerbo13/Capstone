@@ -37,8 +37,8 @@ public class ServizioService {
                 payload.getDescrizione(),
                 payload.getPrezzo(),
                 payload.getDurata(),
-                payload.isAttivo()
-        );
+                payload.isAttivo(),
+                payload.getImmagine());
         Servizio servizioSalvato = this.servizioRepository.save(newServizio);
         log.info("Il servizio "+newServizio.getNome()+ " è stato inserito con successo!");
         return servizioSalvato;
@@ -75,6 +75,7 @@ public class ServizioService {
         found.setPrezzo(payload.getPrezzo());
         found.setDurata(payload.getDurata());
         found.setAttivo(payload.isAttivo());
+        found.setImmagine(payload.getImmagine());
 
         Servizio servizioModificato = this.servizioRepository.save(found);
         log.info("Il servizio con id " + servizioModificato.getId() + " è stato modificato correttamente");

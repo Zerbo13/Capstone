@@ -15,14 +15,16 @@ public class CampoPayload {
     private boolean attivo;
     @NotBlank(message = "Il tipo è obbligatorio")
     private String tipo;
+    private String immagine;
 
-    public CampoPayload(String nome, String descrizione, boolean coperto, Double prezzoOra, boolean attivo, String tipo) {
+    public CampoPayload(String nome, String descrizione, boolean coperto, Double prezzoOra, boolean attivo, String tipo, String immagine) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.coperto = coperto;
         this.prezzoOra = prezzoOra;
         this.attivo = attivo;
         this.tipo = tipo;
+        this.immagine = immagine;
     }
 
     public String getNome() {
@@ -49,5 +51,7 @@ public class CampoPayload {
         return tipo;
     }
 
-
+    public String getImmagine() {
+        return immagine;
+    }
 }

@@ -18,13 +18,15 @@ public class Servizio {
     private Double prezzo;
     private LocalTime durata;
     private boolean attivo;
+    private String immagine;
 
-    public Servizio( String nome, String descrizione, Double prezzo, LocalTime durata, boolean attivo) {
+    public Servizio( String nome, String descrizione, Double prezzo, LocalTime durata, boolean attivo, String immagine) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.durata = durata;
         this.attivo = attivo;
+        this.immagine = immagine;
     }
 
     public Servizio() {
@@ -74,4 +76,15 @@ public class Servizio {
         this.attivo = attivo;
     }
 
+    public String getImmagine() {
+        return immagine;
+    }
+
+    public void setImmagine(String immagine) {
+        this.immagine = immagine;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
 }
