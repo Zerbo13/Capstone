@@ -36,9 +36,11 @@ public class SecurityConfig {
                 .requestMatchers("/auth/**").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/campi/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/campi/*/immagine").hasAuthority("ADMIN")
                 .requestMatchers("/campi/**").hasAuthority("ADMIN")
 
                 .requestMatchers(HttpMethod.GET, "/servizi/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/servizi/*/immagine").hasAuthority("ADMIN")
                 .requestMatchers("/servizi/**").hasAuthority("ADMIN")
 
                 .requestMatchers(HttpMethod.POST, "/prenotazioni/**").hasAuthority("USER")

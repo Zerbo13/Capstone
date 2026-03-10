@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/servizi")
@@ -60,6 +63,13 @@ public class ServizioController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public Servizio findByIdAndUpdate(@PathVariable long idServizio, @RequestBody ServizioPayload payload) {
         return this.servizioService.findByIdAndUpdate(idServizio, payload);
+    }
+
+    //PATH
+    @PatchMapping("/{idServizio}/immagine")
+    public Servizio uploadImmagine(@PathVariable Long idServizio, @RequestParam("immagine") MultipartFile file)
+    throws IOException{
+        return servizioService.uploadImmagine(idServizio, file);
     }
 
 }

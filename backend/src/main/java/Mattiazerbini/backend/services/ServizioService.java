@@ -17,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @Slf4j
@@ -29,6 +32,9 @@ public class ServizioService {
     public ServizioService(ServizioRepository servizioRepository) {
         this.servizioRepository = servizioRepository;
     }
+
+    @Autowired
+    public CloudinaryService cloudinaryService;
 
     public Servizio salvaServizio(ServizioPayload payload){
 
@@ -80,5 +86,13 @@ public class ServizioService {
         Servizio servizioModificato = this.servizioRepository.save(found);
         log.info("Il servizio con id " + servizioModificato.getId() + " è stato modificato correttamente");
         return servizioModificato;
+    }
+
+    public Servizio uploadImmagine(Long id, MultipartFile file) throws IOException{
+        Servizio servizio = servizioRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Servizio con id " +id+ "non trovato"));
+        String url = cloudinaryService.uploadImage(file);
+        servizio.setImmagine(url);
+        return  servizioRepository.save(servizio);
     }
 }

@@ -2,6 +2,7 @@ package Mattiazerbini.backend.services;
 
 import Mattiazerbini.backend.Excenptions.NotFoundException;
 import Mattiazerbini.backend.entities.Campo;
+import Mattiazerbini.backend.entities.Servizio;
 import Mattiazerbini.backend.entities.Utente;
 import Mattiazerbini.backend.payloads.CampoPayload;
 import Mattiazerbini.backend.payloads.UtentePayload;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @Service
@@ -28,6 +32,9 @@ public class CampoService {
         this.campoRepository = campoRepository;
     }
 
+    @Autowired
+    public CloudinaryService cloudinaryService;
+
     public Campo salvaCampo(CampoPayload payload){
 
         Campo newCampo = new Campo(
@@ -36,6 +43,7 @@ public class CampoService {
                 payload.isCoperto(),
                 payload.getPrezzoOra(),
                 payload.isAttivo(),
+                payload.getImmagine(),
                 payload.getTipo()
         );
         Campo campoSalvato = this.campoRepository.save(newCampo);
@@ -75,10 +83,19 @@ public class CampoService {
         found.setPrezzoOra(payload.getPrezzoOra());
         found.setAttivo(payload.isAttivo());
         found.setTipo(payload.getTipo());
+        found.setImmagine(payload.getImmagine());
 
 
         Campo campoModificato = this.campoRepository.save(found);
         log.info("Il campo con id " + campoModificato.getId() + " è stato modificato correttamente");
         return campoModificato;
+    }
+
+    public Campo uploadImmagine(Long id, MultipartFile file) throws IOException {
+        Campo campo = campoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Campo con id " +id+ "non trovato"));
+        String url = cloudinaryService.uploadImage(file);
+        campo.setImmagine(url);
+        return  campoRepository.save(campo);
     }
 }

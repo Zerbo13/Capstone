@@ -17,7 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -100,5 +102,12 @@ public class CampoController {
        List<SlotPrenotazioni> slots = slotPrenotazioniService.slotOra(oraApertura, oraChiusura, durata, step);
        List<Prenotazione> prenotazioni = prenotazioneService.findByCampoAndData(idCampo, data);
         return slotPrenotazioniService.filtroSlotDisponibili(slots, prenotazioni);
+    }
+
+    //PATH
+    @PatchMapping("/{idCampo}/immagine")
+    public Campo uploadImmagine(@PathVariable Long idCampo, @RequestParam("immagine") MultipartFile file)
+            throws IOException {
+        return campoService.uploadImmagine(idCampo, file);
     }
 }
