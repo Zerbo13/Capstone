@@ -175,12 +175,7 @@ public class PrenotazioneService {
         return prenotazioneRepository.findByCampoIdAndData(campoId, data);
     }
 
-    public List<Prenotazione> findPrenotazioniUtente(){
-        Utente utenteLoggato = (Utente) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        return prenotazioneRepository.findByUtenteId(utenteLoggato.getId());
+    public List<Prenotazione> findPrenotazioniUtente(Long utenteId){
+        return prenotazioneRepository.findByUtenteId(utenteId);
     }
 }

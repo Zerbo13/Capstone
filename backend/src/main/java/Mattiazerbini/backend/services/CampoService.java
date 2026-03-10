@@ -36,8 +36,7 @@ public class CampoService {
                 payload.isCoperto(),
                 payload.getPrezzoOra(),
                 payload.isAttivo(),
-                payload.getTipo(),
-                payload.getImmagine()
+                payload.getTipo()
         );
         Campo campoSalvato = this.campoRepository.save(newCampo);
         log.info("Il campo "+newCampo.getNome()+ " è stato inserito con successo!");
@@ -76,7 +75,6 @@ public class CampoService {
         found.setPrezzoOra(payload.getPrezzoOra());
         found.setAttivo(payload.isAttivo());
         found.setTipo(payload.getTipo());
-        found.setImmagine(payload.getImmagine());
 
 
         Campo campoModificato = this.campoRepository.save(found);

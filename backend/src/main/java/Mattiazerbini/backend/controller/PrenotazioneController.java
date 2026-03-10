@@ -73,10 +73,10 @@ public class PrenotazioneController {
     }
 
     //GET
-    @GetMapping("/utente")
-    @PreAuthorize("hasAnyAuthority('USER')")
-    public List<Prenotazione> getPrenotazioniUtente(){
-        return prenotazioneService.findPrenotazioniUtente();
+    @GetMapping("/utente/{utenteId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'USER')")
+    public List<Prenotazione> getPrenotazioniUtente(@PathVariable Long utenteId){
+        return prenotazioneService.findPrenotazioniUtente( utenteId);
     }
 }
 
