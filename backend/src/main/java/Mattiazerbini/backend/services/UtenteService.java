@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -35,6 +36,9 @@ public class UtenteService {
     @Autowired
     private SendGridService sendGridService;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
     public Utente salvaUtente(UtentePayload payload){
         if(utenteRepository.existsByEmail(payload.getEmail())){
             throw new RuntimeException("Email gia in uso!");
@@ -47,12 +51,20 @@ public class UtenteService {
                bcrypt.encode(payload.getPassword()),
                 payload.getTelefono(),
                 java.time.LocalDate.now(),
-                true
+                true,
+                payload.getAvatar()
         );
         newUtente.setRuolo(Ruolo.USER);
         Utente utenteSalvato = this.utenteRepository.save(newUtente);
         log.info("L'utente "+newUtente.getNome()+" " +newUtente.getCognome()+ " è stato inserito con successo!");
         return utenteSalvato;
+    }
+
+    public Utente uploadAvatar(Long id, MultipartFile file) throws IOException{
+        Utente utente = findById(id);
+        String url = cloudinaryService.uploadImage(file);
+        utente.setAvatar(url);
+        return utenteRepository.save(utente);
     }
 
     //FIND ALL
@@ -87,6 +99,7 @@ public class UtenteService {
         found.setEmail(payload.getEmail());
         found.setPassword(payload.getPassword());
         found.setTelefono(payload.getTelefono());
+        found.setAvatar(payload.getAvatar());
 
         Utente utenteModificato = this.utenteRepository.save(found);
         log.info("L'utente con id " + utenteModificato.getId() + " è stato modificato correttamente");

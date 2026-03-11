@@ -26,10 +26,11 @@ public class Utente implements UserDetails {
     private String telefono;
     private LocalDate dataRegistrazione;
     private boolean attivo;
+    private String avatar;
     @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
 
-    public Utente(String nome, String cognome, String dataNascita, String email, String password, String telefono, LocalDate dataRegistrazione, boolean attivo) {
+    public Utente(String nome, String cognome, String dataNascita, String email, String password, String telefono, LocalDate dataRegistrazione, boolean attivo, String avatar) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataNascita = dataNascita;
@@ -38,6 +39,7 @@ public class Utente implements UserDetails {
         this.telefono = telefono;
         this.dataRegistrazione = dataRegistrazione;
         this.attivo = attivo;
+        this.avatar = avatar;
     }
 
     public Utente() {
@@ -126,6 +128,14 @@ public class Utente implements UserDetails {
 
     public void setRuolo(Ruolo ruolo) {
         this.ruolo = ruolo;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override

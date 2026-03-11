@@ -18,6 +18,7 @@ public class UtentePayload {
     private String password;
     @NotBlank(message = "Il telfono è obbligatorio")
     private String telefono;
+    private String avatar;
 
     public UtentePayload(String nome, String cognome, String dataNascita, String email, String password, String telefono) {
         this.nome = nome;
@@ -50,5 +51,13 @@ public class UtentePayload {
 
     public String getTelefono() {
         return telefono;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

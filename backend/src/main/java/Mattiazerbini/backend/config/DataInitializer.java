@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         // Crea admin se non esiste
         if (!utenteRepository.existsByEmail("admin@padel.it")) {
-            Utente admin = new Utente("Admin", "Sistema", "2006-08-14", "admin@padel.it", passwordEncoder.encode("admin123"), "3334567891", LocalDate.now(), true);
+            Utente admin = new Utente("Admin", "Sistema", "2006-08-14", "admin@padel.it", passwordEncoder.encode("admin123"), "3334567891", LocalDate.now(), true, null);
             admin.setRuolo(Ruolo.ADMIN);
             utenteRepository.save(admin);
         }

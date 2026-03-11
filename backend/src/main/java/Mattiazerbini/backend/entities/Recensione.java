@@ -13,22 +13,24 @@ public class Recensione {
     private Long id;
 
     private String testo;
-    private String stella;
+    private int stelle;
     private LocalDate data;
 
     @ManyToOne
     @JoinColumn(name = "id_utente")
     private Utente utente;
 
-    public Recensione(String testo, String stella, LocalDate data, Utente utente) {
+    public Recensione(String testo, int stelle, LocalDate data, Utente utente) {
         this.testo = testo;
-        this.stella = stella;
+        this.stelle = stelle;
         this.data = data;
         this.utente = utente;
     }
 
     public Recensione() {
     }
+
+
 
     public Long getId() {
         return id;
@@ -42,12 +44,12 @@ public class Recensione {
         this.testo = testo;
     }
 
-    public String getStella() {
-        return stella;
+    public int getStelle() {
+        return stelle;
     }
 
-    public void setStella(String stella) {
-        this.stella = stella;
+    public void setStelle(int stelle) {
+        this.stelle = stelle;
     }
 
     public LocalDate getData() {

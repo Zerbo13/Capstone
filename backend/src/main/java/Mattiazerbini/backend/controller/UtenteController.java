@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -38,7 +39,7 @@ public class UtenteController {
 
 
     //GET
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @GetMapping("/{idUtente}")
     public Utente findById(@PathVariable long idUtente) {
         return this.utenteService.findById(idUtente);
@@ -66,5 +67,12 @@ public class UtenteController {
     @ResponseStatus(HttpStatus.OK)
     public void resetPassword(@RequestBody ResetPasswordPayload payload) throws IOException{
         utenteService.resetPassword(payload.getEmail(), payload.getNuovaPassword());
+    }
+
+    //PATCH
+    @PatchMapping("/{idUtente}/avatar")
+    @ResponseStatus(HttpStatus.OK)
+    public Utente uploadAvatar(@PathVariable Long idUtente, @RequestParam("avatar")MultipartFile file) throws IOException{
+        return utenteService.uploadAvatar(idUtente, file);
     }
 }

@@ -19,7 +19,7 @@ public class RecensioneService {
     private RecensioneRepository recensioneRepository;
 
     public Recensione salvaRecensione(RecensionePayload payload, Utente utente){
-        Recensione recensioneSalvata = new Recensione(payload.getTesto(), payload.getStella(), LocalDate.now(), utente);
+        Recensione recensioneSalvata = new Recensione(payload.getTesto(), payload.getStelle(), LocalDate.now(), utente);
         return recensioneRepository.save(recensioneSalvata);
     }
 
