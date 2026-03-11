@@ -34,6 +34,8 @@ public class SecurityConfig {
 
         httpSecurity.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/utenti/reset-password").permitAll()
+
 
                 .requestMatchers(HttpMethod.GET, "/campi/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/campi/*/immagine").hasAuthority("ADMIN")
@@ -46,7 +48,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/prenotazioni/**").hasAuthority("USER")
                 .requestMatchers(HttpMethod.GET, "/prenotazioni/utente/**").hasAuthority("USER")
                 .requestMatchers(HttpMethod.DELETE, "/prenotazioni/**").hasAnyAuthority("USER", "ADMIN")
-//                .requestMatchers("/prenotazioni/**").hasAuthority("ADMIN")
+
 
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()

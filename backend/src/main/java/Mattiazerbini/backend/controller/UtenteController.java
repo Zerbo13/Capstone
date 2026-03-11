@@ -1,16 +1,16 @@
 package Mattiazerbini.backend.controller;
 
-import Mattiazerbini.backend.entities.Campo;
 import Mattiazerbini.backend.entities.Utente;
-import Mattiazerbini.backend.payloads.CampoPayload;
+import Mattiazerbini.backend.payloads.ResetPasswordPayload;
 import Mattiazerbini.backend.payloads.UtentePayload;
-import Mattiazerbini.backend.services.CampoService;
 import Mattiazerbini.backend.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/utenti")
@@ -59,5 +59,12 @@ public class UtenteController {
     @PutMapping("/{idUtente}")
     public Utente findByIdAndUpdate(@PathVariable long idUtente, @RequestBody UtentePayload payload) {
         return this.utenteService.findByIdAndUpdate(idUtente, payload);
+    }
+
+    //PATCH
+    @PatchMapping("/reset-password")
+    @ResponseStatus(HttpStatus.OK)
+    public void resetPassword(@RequestBody ResetPasswordPayload payload) throws IOException{
+        utenteService.resetPassword(payload.getEmail(), payload.getNuovaPassword());
     }
 }

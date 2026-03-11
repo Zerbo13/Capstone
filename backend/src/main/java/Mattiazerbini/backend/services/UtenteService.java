@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 @Slf4j
 public class UtenteService {
@@ -29,6 +31,9 @@ public class UtenteService {
         this.bcrypt = bcrypt;
         this.utenteRepository = utenteRepository;
     }
+
+    @Autowired
+    private SendGridService sendGridService;
 
     public Utente salvaUtente(UtentePayload payload){
         if(utenteRepository.existsByEmail(payload.getEmail())){
@@ -92,6 +97,15 @@ public class UtenteService {
     public Utente findByEmail(String email) {
         return utenteRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato"));
+    }
+
+
+    //RESET PASSWORD
+    public void resetPassword(String email, String nuovaPassword) throws IOException{
+        Utente utente = findByEmail(email);
+        utente.setPassword(bcrypt.encode(nuovaPassword));
+        utenteRepository.save(utente);
+        sendGridService.sendEmail(email, "Password aggiornata", "Ciao "+utente.getNome()+ " la tua password è stata aggiornata!");
     }
 
 }

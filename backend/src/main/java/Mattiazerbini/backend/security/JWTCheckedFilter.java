@@ -50,7 +50,10 @@ public class JWTCheckedFilter extends OncePerRequestFilter {
     }
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+        AntPathMatcher matcher = new AntPathMatcher();
+        String path = request.getServletPath();
+        return matcher.match("/auth/**", path) ||
+                matcher.match("/utenti/reset-password", path);
     }
 
 
