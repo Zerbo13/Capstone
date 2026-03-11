@@ -45,6 +45,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PATCH, "/servizi/*/immagine").hasAuthority("ADMIN")
                 .requestMatchers("/servizi/**").hasAuthority("ADMIN")
 
+                .requestMatchers(HttpMethod.POST, "/recensioni/**").hasAuthority("USER")
+                .requestMatchers(HttpMethod.GET, "/recensioni/**").permitAll()
+
+
                 .requestMatchers(HttpMethod.POST, "/prenotazioni/**").hasAuthority("USER")
                 .requestMatchers(HttpMethod.GET, "/prenotazioni/utente/**").hasAuthority("USER")
                 .requestMatchers(HttpMethod.DELETE, "/prenotazioni/**").hasAnyAuthority("USER", "ADMIN")

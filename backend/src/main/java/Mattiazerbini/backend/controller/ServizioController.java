@@ -50,7 +50,6 @@ public class ServizioController {
 
     //GET
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public Page<Servizio> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
