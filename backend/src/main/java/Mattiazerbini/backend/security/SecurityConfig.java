@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/prenotazioni/utente/**").hasAuthority("USER")
                 .requestMatchers(HttpMethod.DELETE, "/prenotazioni/**").hasAnyAuthority("USER", "ADMIN")
 
+                .requestMatchers(HttpMethod.PATCH, "/utenti/*/avatar").authenticated()
 
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
