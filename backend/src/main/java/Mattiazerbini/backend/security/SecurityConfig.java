@@ -50,7 +50,7 @@ public class SecurityConfig {
 
 
                 .requestMatchers(HttpMethod.POST, "/prenotazioni/**").hasAuthority("USER")
-                .requestMatchers(HttpMethod.GET, "/prenotazioni/utente/**").hasAuthority("USER")
+                .requestMatchers(HttpMethod.GET, "/prenotazioni/utente/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/prenotazioni/**").hasAnyAuthority("USER", "ADMIN")
 
                 .requestMatchers(HttpMethod.PATCH, "/utenti/*/avatar").authenticated()
