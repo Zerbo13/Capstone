@@ -98,4 +98,12 @@ public class CampoService {
         campo.setImmagine(url);
         return  campoRepository.save(campo);
     }
+
+    public void aggiornaAttivita(Long id, Boolean attivo) {
+        Campo campo = campoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Campo non trovato con id: " + id));
+
+        campo.setAttivo(attivo);
+        campoRepository.save(campo);
+    }
 }
