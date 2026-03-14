@@ -55,6 +55,8 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.PATCH, "/utenti/*/avatar").authenticated()
 
+                .requestMatchers(HttpMethod.POST, "/pagamenti/**").hasAuthority("USER")
+
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
         );
