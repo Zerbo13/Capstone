@@ -4,6 +4,7 @@ import Mattiazerbini.backend.Excenptions.DataNoValidationException;
 import Mattiazerbini.backend.entities.Campo;
 import Mattiazerbini.backend.entities.Prenotazione;
 import Mattiazerbini.backend.entities.Servizio;
+import Mattiazerbini.backend.payloads.CampoAttivoDTO;
 import Mattiazerbini.backend.payloads.CampoPayload;
 import Mattiazerbini.backend.payloads.ServizioPayload;
 import Mattiazerbini.backend.payloads.SlotPrenotazioni;
@@ -15,6 +16,7 @@ import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/campi")
@@ -109,4 +112,19 @@ public class CampoController {
             throws IOException {
         return campoService.uploadImmagine(idCampo, file);
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PatchMapping("/{id}/attivo")
+    public ResponseEntity<Void> aggiornaAttivo(
+            @PathVariable Long id,
+            @RequestBody CampoAttivoDTO dto) {
+
+        if (dto.getAttivo() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        campoService.aggiornaAttivita(id, dto.getAttivo());
+        return ResponseEntity.ok().build();
+    }
+
 }

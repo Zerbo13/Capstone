@@ -39,6 +39,7 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.GET, "/campi/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/campi/*/immagine").hasAuthority("ADMIN")
+
                 .requestMatchers("/campi/**").hasAuthority("ADMIN")
 
                 .requestMatchers(HttpMethod.GET, "/servizi/**").permitAll()
