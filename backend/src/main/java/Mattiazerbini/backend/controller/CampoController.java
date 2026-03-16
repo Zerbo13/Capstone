@@ -88,7 +88,8 @@ public class CampoController {
     @GetMapping("/{idCampo}/orari")
     public List<SlotPrenotazioni> getOrariDisponibili(
             @PathVariable Long idCampo,
-            @RequestParam LocalDate data
+            @RequestParam LocalDate data,
+            @RequestParam (defaultValue = "90") int durata
             ){
         //CONTROLLA SE LA DATA E' OGGI O IN  FUTURO NO IN PASSATO
         if (data.isBefore(LocalDate.now())){
@@ -99,7 +100,6 @@ public class CampoController {
         //ORARI APERTURA E CHIUSURA DEL CAMPO
         LocalTime oraApertura = campo.getOraApertura();
         LocalTime oraChiusura = campo.getOraChiusura();
-        int durata = 90; //DURATA SLOT
         int step = 30; //INTERVALLO TRA UNO SLOT E L'ALTRO
        List<SlotPrenotazioni> slots = slotPrenotazioniService.slotOra(oraApertura, oraChiusura, durata, step);
        List<Prenotazione> prenotazioni = prenotazioneService.findByCampoAndData(idCampo, data);

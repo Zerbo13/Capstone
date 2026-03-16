@@ -39,6 +39,7 @@ public class PrenotazioneService {
 
 
     public Prenotazione salvaPrenotazione(PrenotazionePayload payload){
+        System.out.println("METODO PAGAMENTO: " + payload.getMetodoPagamento());
         //CONTROLLA SE LA DATA E' OGGI O IN  FUTURO NO IN PASSATO
         if (payload.getData().isBefore(LocalDate.now())){
             throw new DataNoValidationException("Non è possibile effettuare una prenotazione per i giorni passati");
@@ -85,6 +86,7 @@ public class PrenotazioneService {
                 campo,
                 servizio
         );
+        newPrenotazione.setMetodoPagamento(payload.getMetodoPagamento());
         Prenotazione prenotazioneSalvato = this.prenotazioneRepository.save(newPrenotazione);
         log.info("la prenotazione "+newPrenotazione.getId()+" dell'utente" +newPrenotazione.getUtente()+ " è stata inserita con successo!");
         return prenotazioneSalvato;

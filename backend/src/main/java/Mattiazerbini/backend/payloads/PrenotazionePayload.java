@@ -33,6 +33,9 @@ public class PrenotazionePayload {
     @NotNull(message = "Il servizio è obbligatorio")
     private Long servizioId;
 
+    private String metodoPagamento;
+
+
     public PrenotazionePayload(LocalDate data, LocalTime oraInizio, LocalTime oraFine, String note, Long campoId, Long servizioId) {
         this.data = data;
         this.oraInizio = oraInizio;
@@ -40,6 +43,9 @@ public class PrenotazionePayload {
         this.note = note;
         this.campoId = campoId;
         this.servizioId = servizioId;
+    }
+
+    public PrenotazionePayload() {
     }
 
     public LocalDate getData() {
@@ -64,5 +70,13 @@ public class PrenotazionePayload {
 
     public Long getServizioId() {
         return servizioId;
+    }
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
     }
 }

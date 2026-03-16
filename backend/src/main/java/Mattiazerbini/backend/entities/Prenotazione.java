@@ -22,6 +22,7 @@ public class Prenotazione {
     private LocalDate dataCreazione;
     @Enumerated(EnumType.STRING)
     private Stato stato;
+    private String metodoPagamento;
 
     @ManyToOne
     @JoinColumn(name = "id_utente")
@@ -127,5 +128,13 @@ public class Prenotazione {
 
     public void setServizio(Servizio servizio) {
         this.servizio = servizio;
+    }
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
     }
 }
