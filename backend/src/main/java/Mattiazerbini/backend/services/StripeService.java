@@ -18,8 +18,8 @@ public class StripeService {
 
         SessionCreateParams parametri = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:5173/pagamentoRiuscito")
-                .setCancelUrl("http://localhost:5173/pagamentoAnnullato")
+                .setSuccessUrl("https://zerbopadel.vercel.app/pagamentoRiuscito")
+                .setCancelUrl("https://zerbopadel.vercel.app/pagamentoAnnullato")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
