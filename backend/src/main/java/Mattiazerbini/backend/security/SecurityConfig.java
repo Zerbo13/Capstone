@@ -48,6 +48,8 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.POST, "/recensioni/**").hasAuthority("USER")
                 .requestMatchers(HttpMethod.GET, "/recensioni/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/recensioni/**").hasAuthority("ADMIN")
+
 
 
                 .requestMatchers(HttpMethod.POST, "/prenotazioni/**").hasAuthority("USER")
