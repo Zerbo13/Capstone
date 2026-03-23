@@ -1,5 +1,7 @@
 package Mattiazerbini.backend.services;
 
+import Mattiazerbini.backend.Excenptions.NotFoundException;
+import Mattiazerbini.backend.entities.Campo;
 import Mattiazerbini.backend.entities.Recensione;
 import Mattiazerbini.backend.entities.Utente;
 import Mattiazerbini.backend.payloads.RecensionePayload;
@@ -25,5 +27,16 @@ public class RecensioneService {
 
     public List<Recensione> findAll(){
         return recensioneRepository.findAll();
+    }
+
+    public Recensione findById(long idRecensione) {
+        return recensioneRepository.findById(idRecensione)
+                .orElseThrow(() -> new NotFoundException("La recensione con id " + idRecensione + " non è stato trovato"));
+    }
+
+    public void findByIdAndDelete(long idRecensione) {
+        Recensione found = this.findById(idRecensione);
+        this.recensioneRepository.delete(found);
+        log.info("La recensione con id "+found.getId()+ " è stato eliminata con successo!");
     }
 }
