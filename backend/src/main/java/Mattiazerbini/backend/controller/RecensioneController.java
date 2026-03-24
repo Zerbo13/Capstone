@@ -33,4 +33,11 @@ public class RecensioneController {
         return recensioneService.findAll();
     }
 
+    @DeleteMapping("/{idRecensione}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void findByIdAndDelete(@PathVariable long idRecensione) {
+        this.recensioneService.findByIdAndDelete(idRecensione);
+    }
+
 }
